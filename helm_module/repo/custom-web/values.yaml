@@ -1,0 +1,56 @@
+
+### Default ###
+name: oebinu
+replicaCount: 2
+
+
+#nodeSelector: {
+#  oebinu: "true"
+#}
+
+
+### BANANA ###
+banana: 
+  labels: 
+    key: app
+    value: banana
+  
+  image:
+    repository: oebinu/web
+    tag: "banana"
+  
+  service:
+    port: 8080
+    targetport: 8080
+    type: NodePort
+
+
+### TOMATO ###
+tomato: 
+  labels: 
+    key: app
+    value: tomato
+  
+  image:
+    repository: oebinu/web
+    tag: "tomato"
+
+  service:
+    port: 8080
+    targetport: 8080
+    type: NodePort
+
+
+
+### INGRESS ###
+ingress:
+  enabled: true
+  annotations: {
+#    kubernetes.io/ssl-redirect: "false",
+    kubernetes.io/ingress.class: "alb",
+#    ingress.kubernetes.io/rewrite-target: "/",
+    alb.ingress.kubernetes.io/scheme: "internet-facing",
+    alb.ingress.kubernetes.io/target-type: "instance",
+    alb.ingress.kubernetes.io/subnets: "subnet-00772c58032e16e0c, subnet-04512c247242915eb"
+  }
+

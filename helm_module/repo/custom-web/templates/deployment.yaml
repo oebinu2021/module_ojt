@@ -1,0 +1,68 @@
+
+### BANANA ###
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Values.banana.image.tag }}-deploy
+  labels:
+    {{ .Values.banana.labels.key }}: {{ .Values.banana.labels.value }}
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      {{ .Values.banana.labels.key }}: {{ .Values.banana.labels.value }}
+  template:
+    metadata:
+      name: {{ .Values.banana.image.tag }}-pod
+      labels:
+        {{ .Values.banana.labels.key }}: {{ .Values.banana.labels.value }}
+    spec:
+      containers:
+        - name: {{ .Chart.Name }}
+          image: "{{ .Values.banana.image.repository }}:{{ .Values.banana.image.tag }}"
+          ports:
+            - name: http
+              containerPort: {{ .Values.banana.service.targetport }}
+              protocol: TCP
+          resources:
+
+#      {{- with .Values.nodeSelector }}
+#      nodeSelector:
+#        {{- toYaml . | nindent 8 }}
+#      {{- end }}
+
+---
+
+### TOMATO ###
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Values.tomato.image.tag }}-deploy
+  labels:
+    {{ .Values.tomato.labels.key }}: {{ .Values.tomato.labels.value }}
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      {{ .Values.tomato.labels.key }}: {{ .Values.tomato.labels.value }}
+  template:
+    metadata:
+      name: {{ .Values.tomato.image.tag }}-pod
+      labels:
+        {{ .Values.tomato.labels.key }}: {{ .Values.tomato.labels.value }}
+    spec:
+      containers:
+        - name: {{ .Chart.Name }}
+          image: "{{ .Values.tomato.image.repository }}:{{ .Values.tomato.image.tag }}"
+          ports:
+            - name: http
+              containerPort: {{ .Values.tomato.service.targetport }}
+              protocol: TCP
+          resources:
+
+#      {{- with .Values.nodeSelector }}
+#      nodeSelector:
+#        {{- toYaml . | nindent 8 }}
+#      {{- end }}

@@ -1,0 +1,37 @@
+### BANANA ###
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ .Values.banana.image.tag }}-svc
+  labels:
+    {{ .Values.banana.labels.key }}: {{ .Values.banana.labels.value }}
+spec:
+  type: {{ .Values.banana.service.type }}
+  ports:
+    - port: {{ .Values.banana.service.port }}
+      targetPort: {{ .Values.banana.service.targetport }}
+      protocol: TCP
+      name: http
+  selector:
+    {{ .Values.banana.labels.key }}: {{ .Values.banana.labels.value }}
+
+---
+
+### TOMATO ### 
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ .Values.tomato.image.tag }}-svc
+  labels:
+    {{ .Values.tomato.labels.key }}: {{ .Values.tomato.labels.value }}
+spec:
+  type: {{ .Values.tomato.service.type }}
+  ports:
+    - port: {{ .Values.tomato.service.port }}
+      targetPort: {{ .Values.tomato.service.targetport }}
+      protocol: TCP
+      name: http
+  selector:
+    {{ .Values.tomato.labels.key }}: {{ .Values.tomato.labels.value }}
